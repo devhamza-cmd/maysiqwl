@@ -1,0 +1,102 @@
+CREATE TABLE Clients (
+  Ref_cli INT PRIMARY KEY AUTO_INCREMENT,
+  DescriptionCl VARCHAR(255) NOT NULL,
+  Contact VARCHAR(255) NOT NULL,
+  villeCl VARCHAR(255) NOT NULL,
+  solvabiulite VARCHAR(255) NOT NULL,
+  telCl VARCHAR(255) NOT NULL
+);
+
+INSERT INTO Clients (DescriptionCl, Contact, villeCl, solvabiulite, telCl) VALUES
+('Acme Company', 'John Doe', 'New York', 'Very good', '+1 212 555 1212'),
+('XYZ Corporation', 'Jane Smith', 'San Francisco', 'Fair', '+1 415 555 5678'),
+('ABC Enterprises', 'Peter Jones', 'London', 'Good', '+44 207 123 4567');
+
+CREATE TABLE Fournisseurs (
+  Ref_fou INT PRIMARY KEY AUTO_INCREMENT,
+  descriptionF VARCHAR(255) NOT NULL,
+  EmailF VARCHAR(255) NOT NULL,
+  TelF VARCHAR(255) NOT NULL
+);
+
+INSERT INTO Fournisseurs (descriptionF, EmailF, TelF) VALUES
+('XYZ Supplies', 'xyzsupplies@example.com', '+1 212 555 3456'),
+('ABC Widgets', 'abcwidgets@example.com', '+1 415 555 7890'),
+('DEF Components', 'defcomponents@example.com', '+44 207 123 9876');
+
+CREATE TABLE Produits (
+  Ref_pro INT PRIMARY KEY AUTO_INCREMENT,
+  DescriptionP VARCHAR(255) NOT NULL,
+  Ref_fou INT,
+  Ref_cat INT,
+  PrixU DECIMAL(10,2) NOT NULL,
+  Quantite_stock INT NOT NULL,
+  FOREIGN KEY (Ref_fou) REFERENCES Fournisseurs(Ref_fou),
+  FOREIGN KEY (Ref_cat) REFERENCES Categorie(Ref_cat)
+);
+
+INSERT INTO Produits (DescriptionP, Ref_fou, Ref_cat, PrixU, Quantite_stock) VALUES
+('Laptop', 2, 1, 1200.00, 10),
+('Computer Monitor', 2, 2, 300.00, 5),
+('Mouse', 1, 3, 20.00, 20);
+
+CREATE TABLE Categorie (
+  Ref_cat INT PRIMARY KEY AUTO_INCREMENT,
+  DescriptionCa VARCHAR(255) NOT NULL,
+  tauxTVA DECIMAL(10,2) NOT NULL
+);
+
+INSERT INTO Categorie (DescriptionCa, tauxTVA) VALUES
+('Computers', 19.0%),
+('Peripherals', 18.0%),
+('Office Supplies', 21.0%);
+
+CREATE TABLE Commande (
+  Ref_com INT PRIMARY KEY AUTO_INCREMENT,
+  Ref_cli INT,
+  DateCom DATE NOT NULL,
+  Date_liv DATE,
+  FOREIGN KEY (Ref_cli) REFERENCES Clients(Ref_cli)
+);
+
+INSERT INTO Commande (Ref_cli, DateCom, Date_liv) VALUES
+(1, '2023-10-04', '2023-10-18'),
+(2, '2023-10-08', '2023-10-22'),
+(3, '2023-10-12', '2023-10-26');
+
+CREATE TABLE DetailCommande (
+  Ref_com INT,
+  Ref_pro INT,
+  Qtite_commandée INT,
+  PRIMARY KEY (Ref_com, Ref_pro),
+  FOREIGN KEY (Ref_com) REFERENCES Commande(Ref_com),
+  FOREIGN KEY (Ref_pro) REFERENCES Produits(Ref_pro)
+);
+
+INSERT INTO DetailCommande (Ref_com, Ref_pro, Qtite_commandée) VALUES
+(1, 1, 2),
+(1, 3, 1),
+(2, 2, 2),
+(2, 4, 1),
+(3, 1, 1),
+(3, 3, 2),
+(4, 2, 1),
+(4, 4, 2);
+CREATE TABLE Ville (
+  Ref_ville INT PRIMARY KEY AUTO_INCREMENT,
+  code_ville INT NOT NULL,
+  nom_ville VARCHAR(255) NOT NULL,
+  code_postal VARCHAR(255) NOT NULL
+);
+
+INSERT INTO Ville (code_ville, nom_ville, code_postal) VALUES
+(75001, 'Paris', '75001'),
+(75002, 'Paris', '75002'),
+(75003, 'Paris', '75003'),
+(75004, 'Paris', '75004'),
+(75005, 'Paris', '75005'),
+(75006, 'Paris', '75006'),
+(75007, 'Paris', '75007'),
+(75008, 'Paris', '75008'),
+(75009, 'Paris', '75009'),
+(75010, 'Paris', '75010');
